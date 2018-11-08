@@ -56,7 +56,7 @@ spec:
  * We need to disable default StorageClass (in this case "oci" ) that is automatically created for certain Cloud Providers.refer [github doc](https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/storage.md)
    * kubectl create -f <below yaml> to disable it
 
-     ```yaml
+ ```yaml
 kind: StorageClass
 apiVersion: storage.k8s.io/v1beta1
 metadata:
@@ -65,7 +65,7 @@ metadata:
     # disable this default storage class by setting this annotation to false.
          storageclass.beta.kubernetes.io/is-default-class: "false"
 provisioner: kubernetes.io/oci
-    ```
+```
     * When you see error pod error "prometheus-kube-prometheus-0" is "CrashLoopBackOff"
     * Use "kubectl logs prometheus-kube-prometheus-0 prometheus" to get more details, you may see error "Opening storage failed, permission denied".
     * In this case we need to chmod 775 prometheus-db on NFS .See details in [github issue](https://github.com/coreos/prometheus-operator/issues/830)
