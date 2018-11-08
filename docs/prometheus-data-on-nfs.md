@@ -35,7 +35,7 @@ Use "helm [command] --help" for more information about a command.
  * We need to create Filesystem(NFS) and mount targets in OCI first, then we can let K8S to mount them and use . Please refer official [Oracle Doc](https://docs.cloud.oracle.com/iaas/Content/File/Tasks/creatingfilesystems.htm)
    * create pv in K8S,yaml is like
 
-  ```yaml
+```yaml
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -51,7 +51,7 @@ spec:
   nfs:
     server: 123.123.123.123
     path: "/Prometheus-Data"
-  ```
+```
 
  * We need to disable default StorageClass (in this case "oci" ) that is automatically created for certain Cloud Providers.refer [github doc](https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/storage.md)
    * kubectl create -f <below yaml> to disable it
