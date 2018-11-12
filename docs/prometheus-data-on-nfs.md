@@ -67,10 +67,6 @@ metadata:
 provisioner: kubernetes.io/oci
 ```
 
-   * When you see error pod error "prometheus-kube-prometheus-0" is "CrashLoopBackOff"
-   * Use "kubectl logs prometheus-kube-prometheus-0 prometheus" to get more details, you may see error "Opening storage failed, permission denied".
-   * In this case we need to chmod 775 prometheus-db on NFS .See details in [github issue](https://github.com/coreos/prometheus-operator/issues/830)
-   * After that "kubectl delete pod prometheus-kube-prometheus-0" will restart pod successfully. You can see files created in ./prometheus-db/wal/
 * Get some Kubernetes manifests for Grafana dashboards, and Prometheus rules that allow us to operate Kubernetes
   * wget https://github.com/HenryXie1/Install-Prometheus-Grafana-and-Store-Data-On-NFS-or-StorageClass-in-Oracle-OCI/raw/master/values_nfs.yaml
   * Replace "app: livesqlsb-prometheus" with your labels accordingly to match the PV we created above
@@ -90,6 +86,10 @@ kube-prometheus-grafana-57d5b4d79f-7mdtf                    2/2       Running   
 prometheus-kube-prometheus-0                                3/3       Running   1          1h
 ```
  
+ * When you see error pod error "prometheus-kube-prometheus-0" is "CrashLoopBackOff"
+   * Use "kubectl logs prometheus-kube-prometheus-0 prometheus" to get more details, you may see error "Opening storage failed, permission denied".
+   * In this case we need to chmod 775 prometheus-db on NFS .See details in [github issue](https://github.com/coreos/prometheus-operator/issues/830)
+   * After that "kubectl delete pod prometheus-kube-prometheus-0" will restart pod successfully. You can see files created in ./prometheus-db/wal/
 * Expose Prometheus service to NodePort
   * kubectl edit svc kube-prometheus -n monitoring
    * At the bottom, replace "type: ClusterIP" with "type: NodePort", save it
